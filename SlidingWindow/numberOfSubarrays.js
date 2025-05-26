@@ -4,43 +4,63 @@
  * @return {number}
  */
 var numberOfSubarrays = function (nums, k) {
-  const len = nums.length;
+  const numLen = nums.length;
+  let oddCount = 0,
+    oddLen = 0;
   let left = 0,
-    middle = 0,
     right = 0;
-  let result = 0;
-  let currOdd = 0;
-  let currCount = 1;
 
-  while (currOdd < k) {
-    if (nums[right] % 2 !== 0) {
-      currOdd++;
+  let leftCount = 1,
+    rightCount = 1;
+
+  function getLeftCount() {
+    let leftCount = 1;
+
+    let currNum = nums[left];
+    while (currNum % 2 == 0) {
+      leftCount++;
+      currNum = nums[++left];
     }
+
+    return leftCount;
+  }
+
+  let currNum;
+  while (oddLen < k && right < numLen) {
+    currNum = nums[right];
+    if (currNum % 2 == 1) {
+      oddLen++;
+    }
+
     right++;
   }
 
-  //right++;
-  while (right < len) {
-    currCount = 1;
+  if (oddLen == k) {
+    oddCount++;
+  }
 
-    while (right < len && nums[right] % 2 !== 1) {
-      currCount++;
-      right++;
+  while (right < numLen) {
+    currNum = nums[right];
+    if (currNum % 2 == 0) {
+      rightCount++;
+    } else {
+      leftCount = getLeftCount();
+      oddCount += leftCount * rightCount;
+      leftCount = 1;
+      rightCount = 1;
     }
 
-    while (nums[middle] % 2 !== 1) {
-      middle++;
-    }
-
-    result += currCount * (middle - left + 1);
-    middle += 1;
-    left = middle;
     right++;
   }
 
-  return result;
+  if (rightCount != 1) {
+    leftCount = getLeftCount();
+    oddCount += leftCount * rightCount;
+  }
+
+  return oddCount;
 };
 
-const nums = [1, 1, 2, 1, 1],
+const nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2],
   k = 3;
 console.log(numberOfSubarrays(nums, k));

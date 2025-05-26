@@ -6,31 +6,34 @@
  * @return {string}
  */
 var minWindow = function (s, t) {
-  const sLen = s.length;
-  const tLen = t.length;
+  const len = s.length;
+  let left = 0,
+    right = 0;
 
-  const tChrMap = {};
-  for (let ch of t) {
-    tChrMap[ch] = tChrMap[ch] ? tChrMap[ch]++ : 1;
+  const tMap = {};
+  for (let item of t) {
+    if (!tMap[item]) tMap[item] = 0;
+    tMap[item] += 1;
   }
-  let i = 0,
-    j = 0;
-  const window = {},
-    windowLen = 0,
-    minWindowLen = Number.MAX_VALUE;
 
-  while (i < sLen && j < sLen) {
-    if (Object.keys(window).length == 0) {
-      if (tChrMap[s[i]]) {
-        window[i] = 1;
-        windowLen++;
-        j = 1 + 1;
-      }
-      i++;
+  const localTMap = { ...tMap };
+  localTMap._proto_ = { isEmpty: false };
+
+  let subArryLen = 0,
+    minLen = -1,
+    result = "";
+
+  while (right < len) {
+    let currItem = s[right];
+    if (!localTMap[currItem]) {
+      subArryLen++;
     } else {
-      if (tChrMap[s[j]]) {
-      } else {
-      }
+      localTMap[currItem] -= 1;
+      subArryLen++;
     }
   }
 };
+
+const s = "ADOBECODEBANC",
+  t = "ABC";
+console.log(minWindow(s, t));
