@@ -1,21 +1,20 @@
 /**
  * @param {number[]} nums
- * @return {number[]}
+ * @return {number}
  */
-var findDuplicates = function(nums) {
-    let len = nums.length;
-    let temp = nums[0];
-    let index = 0;
-    for(let i=0; i<len; i++) {
-        if(nums[i] == i+1){
-            continue;
-        } else {
-            temp = nums[nums[index]];
-            nums[nums[index]] = nums[index];
-            // temp = 
-        }
-    }
-};
+var findDuplicate = function (nums) {
+  const numLen = nums.length;
+  const set = new Set();
 
-let nums = [4,3,2,7,8,2,3,1];
-console.log(findDuplicates(nums));
+  let result = -1;
+  nums.forEach((num) => {
+    if (set.has(num)) {
+      result = num;
+      return result;
+    } else {
+      set.add(num);
+    }
+  });
+
+  return result;
+};
