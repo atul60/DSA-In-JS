@@ -26,35 +26,36 @@ Output: -1 */
  * @param {number} target
  * @return {number}
  */
-var search = function(nums, target) {
-    const length = nums.length;
-    if(length === 0) {
-        return -1;
-    } else if(length === 1) {
-        if(nums[0] === target) return 0;
-        return -1;
-    }
-
-    let startIdx = 0, endIdx = length-1;
-    while(startIdx < endIdx) {
-        let mid = Math.floor((startIdx + endIdx)/2);
-        if(nums[mid] === target) return mid;
-        if(nums[startIdx] === target) return startIdx;
-        if(nums[endIdx] === target) return endIdx;  
-
-        if(nums[startIdx] < nums[mid]) {
-            if(target > nums[startIdx] && target < nums[mid]) {
-                endIdx = mid-1;
-            } else {
-                startIdx = mid + 1;
-            }
-        } else {
-            if(target > nums[mid] && target < nums[endIdx]) {
-                startIdx = mid+1;
-            } else {
-                endIdx = mid-1;
-            }
-        }
-    }
+var search = function (nums, target) {
+  const length = nums.length;
+  if (length === 0) {
     return -1;
+  } else if (length === 1) {
+    if (nums[0] === target) return 0;
+    return -1;
+  }
+
+  let startIdx = 0,
+    endIdx = length - 1;
+  while (startIdx < endIdx) {
+    let mid = Math.floor((startIdx + endIdx) / 2);
+    if (nums[mid] === target) return mid;
+    if (nums[startIdx] === target) return startIdx;
+    if (nums[endIdx] === target) return endIdx;
+
+    if (nums[startIdx] < nums[mid]) {
+      if (target > nums[startIdx] && target < nums[mid]) {
+        endIdx = mid - 1;
+      } else {
+        startIdx = mid + 1;
+      }
+    } else {
+      if (target > nums[mid] && target < nums[endIdx]) {
+        startIdx = mid + 1;
+      } else {
+        endIdx = mid - 1;
+      }
+    }
+  }
+  return -1;
 };
