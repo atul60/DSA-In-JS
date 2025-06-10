@@ -3,8 +3,6 @@
  * @param {number} days
  * @return {number}
  */
-
-//incomplete
 var shipWithinDays = function (weights, days) {
   let maxWeight = 0;
   const totalWeight = weights.reduce((total, weight) => {
