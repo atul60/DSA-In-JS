@@ -14,7 +14,7 @@ var maxSlidingWindow = function (nums, k) {
 
   result.push(mntDec.peekBack()[1]);
 
-  let wndStrInd = 0;
+  let wndStrInd = 0; //starting index of window
   for (let i = k; i < len; i++) {
     let currItem = nums[i];
     if (wndStrInd == mntDec.peekBack()[0]) {
