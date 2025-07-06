@@ -1,3 +1,4 @@
+// Greedy Approach
 /**
  * @param {number[]} nums
  * @return {boolean}
@@ -19,3 +20,16 @@ function isPossible(arr, currPos, dp) {
 
   return result;
 }
+
+// Better Approach
+var canJump1 = function (nums) {
+  const len = nums.length;
+  let maxReach = 0;
+
+  for (let i = 0; i < len; i++) {
+    if (i > maxReach) return false;
+    maxReach = Math.max(maxReach, i + nums[i]);
+  }
+
+  return true;
+};
