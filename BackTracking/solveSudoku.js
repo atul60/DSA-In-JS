@@ -3,37 +3,53 @@
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function (board) {
+  // Start the recursive backtracking solver
   completeBoard(board);
 };
 
-function completeBoard(board, row, column, box) {
+function completeBoard(board) {
+  // Loop through every cell in the board
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
+      // Skip already filled cells
       if (board[i][j] != ".") {
         continue;
       }
+
+      // Try filling this empty cell with numbers 1–9
       for (let k = 1; k < 10; k++) {
         const valid = isValidNumber(board, i, j, k);
-        if (!valid) continue;
+
+        if (!valid) continue; // If not valid, try the next number
+
+        // Place the number tentatively
         board[i][j] = `${k}`;
+
+        // Recursively attempt to solve the rest of the board
         let correctFill = completeBoard(board);
-        if (correctFill) return true;
+
+        if (correctFill) return true; // If solved, bubble up success
+
+        // Otherwise, reset (backtrack) and try the next number
         board[i][j] = ".";
       }
+
+      // If no number works in this cell, backtrack
       return false;
     }
   }
 
+  // If we reach here, it means the entire board is filled correctly
   return true;
 }
 
 function isValidNumber(board, row, column, num) {
-  //Row and Column
+  // Check if `num` exists in the same row or column
   for (let i = 0; i < 9; i++) {
     if (board[row][i] == num || board[i][column] == num) return false;
   }
 
-  //Cube
+  // Check if `num` exists in the 3x3 subgrid
   const cubeRow = Math.floor(row / 3);
   const cubeColumn = Math.floor(column / 3);
   for (let i = cubeRow * 3; i < cubeRow * 3 + 3; i++) {
@@ -42,19 +58,6 @@ function isValidNumber(board, row, column, num) {
     }
   }
 
+  // If no conflicts, the number is valid here
   return true;
 }
-
-const board = [
-  ["5", "3", ".", ".", "7", ".", ".", ".", "."],
-  ["6", ".", ".", "1", "9", "5", ".", ".", "."],
-  [".", "9", "8", ".", ".", ".", ".", "6", "."],
-  ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
-  ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
-  ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
-  [".", "6", ".", ".", ".", ".", "2", "8", "."],
-  [".", ".", ".", "4", "1", "9", ".", ".", "5"],
-  [".", ".", ".", ".", "8", ".", ".", "7", "9"],
-];
-
-console.log(solveSudoku(board));
