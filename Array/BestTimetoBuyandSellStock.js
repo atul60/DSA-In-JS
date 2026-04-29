@@ -12,3 +12,5 @@ var maxProfit = function(prices) {
     })
     return profit;
 };
+
+// Example usage:
