@@ -19,11 +19,11 @@ function TreeNode(val, left, right) {
 
 var maxDepth = function(root) {
     if(!root) return 0;
-    maxDepthCount(root, 1, 1);
+    return maxDepthCount(root);
 };
 
 function maxDepthCount(temp) {
-    if(temp) return 0;
+    if(!temp) return 0;
     return Math.max(maxDepthCount(temp.left), maxDepthCount(temp.right)) + 1;
 }
 
