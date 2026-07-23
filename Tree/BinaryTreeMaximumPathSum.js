@@ -6,26 +6,58 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+let maxSum;
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
 var maxPathSum = function(root) {
-    return maxSum(root);
+    // Stores the maximum path sum found anywhere in the tree.
+    maxSum = Number.NEGATIVE_INFINITY;
+
+    // Perform DFS traversal to compute maximum path sums.
+    getMaxSum(root);
+
+    return maxSum;
 };
 
-function maxSum(root) {
-    if(root.left == null && root.right == null) return root.val;
-    let maxLeft, maxRight;
-    if(root.left != null) {
-        maxLeft =  maxSum(root.left) 
-    };
-    if(root.right != null) {
-        maxRight =  maxSum(root.right) 
-    };
-    let max; 
-    if(maxLeft && maxRight) max = Math.max(maxLeft, maxLeft + root.val, maxRight, maxRight+root.val, maxLeft+root.val+maxRight);
-    else if(maxLeft) max = Math.max(maxLeft, root.val, maxLeft+root.val);
-    else max = Math.max(root.val, maxRight, root.val+maxRight);
-    return max;
+function getMaxSum(root) {
+
+    // Base case:
+    // A null node contributes nothing to a path, so return negative infinity
+    // to ensure it is never chosen over an actual node value.
+    if (!root) {
+        return Number.NEGATIVE_INFINITY;
+    }
+
+    // Recursively compute the maximum downward path sum
+    // starting from the left and right child.
+    const leftMax = getMaxSum(root.left);
+    const rightMax = getMaxSum(root.right);
+
+    // Maximum path starting at the current node that can be
+    // extended to its parent (only one branch can be chosen).
+    const sectionResult = Math.max(
+        leftMax + root.val,
+        rightMax + root.val,
+        root.val
+    );
+
+    // Update the global maximum considering:
+    // 1. A path passing through the current node (left -> root -> right)
+    // 2. Current node + left branch
+    // 3. Current node + right branch
+    // 4. Current node alone
+    maxSum = Math.max(
+        maxSum,
+        leftMax + root.val + rightMax,
+        leftMax + root.val,
+        rightMax + root.val,
+        root.val
+    );
+
+    // Return the best extendable path to the parent.
+    return sectionResult;
 }
